@@ -1,0 +1,120 @@
+JavaScript Runtime o Entorno de ejecución JavaScript
+
+Este componente permite ejecutar las acciones del código JavaScript, todo los navegadores lo tienen.
+
+NodeJS es uno de los entornos que tiene este componente que permite usarlo de manera independiente sin necesidad de los navegadores.
+
+Express es un complemento de NodeJS que nos ayudara ejecutar al servidor o consola, es como el Tomcat de Java, en cambio este es de JavaScript.
+
+npm init --y = comando para mostrar en un archivo las dependencias 
+
+npm install express = para instalar express
+
+npm install body-parser
+
+cls = es un comando para limpiar la consola cmd "comand prompt"
+
+node nombreDelProyecto = para ejecutar el programa
+
+
+
+
+const express = require("express"); //extrayendo el modulo con require en este caso a Express
+
+const app = express(); //llamamos y guardamos en una variable los metodos o funciones de Express
+
+const bodyParser = require("body-parser");
+
+const puerto = 3001;
+
+app.use(bodyParser.json());
+
+app.use("/contactos", (req, resp, next)=>{
+    console.log("Ingresa a Middleware");
+    console.log("headers:", req.headers);
+    console.log("body:", req.body);
+    next();
+});
+
+app.get("/contactos",(request, response)=>{
+    const contactos = [
+        {id:1, nombre: "Santiago", apellido: "Mosquera", celular: "098765412"},
+        {id:1, nombre: "Sandra", apellido: "Romero", celular: "0985213654"},
+        {id:1, nombre: "Kevin", apellido: "Oro", celular: "0923415621"}
+    ];
+    console.log("Ingresa a GET");
+    response.send(contactos); 
+});
+
+app.post("/contactos",(pedido, repuesta)=>{
+    pedido.body.id =99;
+    repuesta.send(pedido.body);
+    //repuesta.send("post contactos");
+});
+
+app.put("/contactos/:idParam",(req, resp)=>{
+    const id = req.params.idParam;
+    console.log("id", id);
+    resp.send(req.body);
+    //resp.send("put contactos");
+});
+
+app.delete("/contactos/:id",(req, resp)=>{
+    const id = req.params.id;
+    console.log("id:", id);
+    resp.send();
+});
+
+//linea de codigo para levantar un servidor en Express 
+// se levanta con la funcion listen y dentro de ella se ubica como primer parametro el puerto y el segundo la funcion creada alli que queremos wque ejecute 
+app.listen(puerto,()=>{
+    console.log("Servidor listo en el puerto "+ puerto);
+});
+
+
+-PARA CERAR UN PROYECTO DESDE CERO EN BLANCO
+npx create-expo-app laptops --template blank
+
+-PARA DESCARGAR DEPENDENCIAS DE REACT NATIVE
+npm install @react-navigation/native react-native-screens react-native-safe-area-context @react-navigation/native-stack
+
+npm install react-native-safe-area-context@5.6.0
+npm install react-native-screens@4.16.0
+
+npm install @rneui/base  @rneui/themed
+
+-PARA FORZAR LA DESCARGA DE ESTA DEPENDENCIAS
+npm install @rneui/base@4.0.0-rc.7 @rneui/themed@4.0.0-rc.8 --legacy-peer-deps
+
+-PARA ELIMINAR EL PACKAGE-LOCK
+rmdir /s /q node_modules
+
+
+-para levantar el proyecto es decir la aplicación y genere el código QR:
+npx expo start
+
+
+
+
+
+
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { ContactsList } from "./screens/ContactsList";
+
+export default function App() {
+
+  const StacksContacts = createNativeStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <StacksContacts.Navigator>
+        <StacksContacts.Screen name="ContactsListNav"
+          component={ContactsList}
+        />
+      </StacksContacts.Navigator>
+    </NavigationContainer>
+  );
+}
+
+
