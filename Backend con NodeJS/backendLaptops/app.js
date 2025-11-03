@@ -61,7 +61,7 @@ app.delete("/laptops/:id",(req, resp)=>{
 
     const ide = req.params.id;
     console.log("id:", ide);
-    resp.send();
+    resp.send({id : ide});
 });
 
 app.listen(puerto,()=>{
